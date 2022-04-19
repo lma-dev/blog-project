@@ -8,7 +8,7 @@ let getPosts = () => {
     let load = async () => {
         try {
             await new Promise((resolve, reject) => {
-                setTimeout(resolve, 2000)
+                setTimeout(resolve, 1000)
             })
             let response = await fetch('http://localhost:3000/posts');
             if (response.status === 404) {

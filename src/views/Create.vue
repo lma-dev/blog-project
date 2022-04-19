@@ -6,8 +6,8 @@
     <textarea required v-model="body"></textarea>
     <label>Tag(hit enter to add a tag)</label>
     <input type="text" v-model="tag" @keydown.enter.prevent="handleKeydown" />
-    <div class="pill" v-for="tag in tags" :key="tag">
-      {{ tag }}
+    <div class="tag-design" v-for="(tag, index) in tags" :key="tag">
+      <button @click="removeTag(index)">{{ tag }}</button>
     </div>
     <button>add post</button>
   </form>
@@ -15,10 +15,11 @@
 
 <script>
 import { ref } from '@vue/reactivity';
-import { computed } from '@vue/runtime-core';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
+    let router = useRouter();
     let title = ref('');
     let body = ref('');
     let tag = ref('');
@@ -43,9 +44,14 @@ export default {
           tags: tags.value,
         }),
       });
+      router.push({ name: 'Home' });
     };
 
-    return { title, body, tag, tags, handleKeydown, addPost };
+    let removeTag = (index) => {
+      tags.value.splice(index, 1);
+    };
+
+    return { title, body, tag, tags, handleKeydown, addPost, removeTag };
   },
 };
 </script>
@@ -86,12 +92,16 @@ button {
   color: white;
   margin-top: 20px;
 }
-.pill {
-  margin: 10px 10px 0 0;
-  padding: 8px;
+
+.tag-design {
+  display: inline-block;
+  padding-right: 10px;
+}
+.tag-design button {
   color: #444;
   background: #ddd;
-  border-radius: 20px;
-  display: inline-block;
+}
+.tag-design button:hover {
+  cursor: pointer;
 }
 </style>

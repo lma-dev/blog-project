@@ -5,10 +5,11 @@ import {
 import Home from '../views/Home.vue'
 import Detail from '../views/Detail.vue'
 import Create from '../views/Create.vue'
+import Tag from '../views/Tag.vue'
 
 const routes = [{
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: Home
   },
   {
@@ -22,6 +23,12 @@ const routes = [{
     name: 'Create',
     component: Create,
   },
+  {
+    path: '/tags/:tag',
+    name: 'Tag',
+    component: Tag,
+    props: true
+  }
 ]
 
 const router = createRouter({
