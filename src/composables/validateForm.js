@@ -7,8 +7,8 @@ let validateForm = (title, body, tags) => {
     let tagsCheck = ref('');
     let errorsCheck = ref([]);
 
-    if (!title || title.length < 4) {
-        errorsCheck.value.push('Title must be greater than 4 counts');
+    if (!title || title.length < 2) {
+        errorsCheck.value.push('Title must be greater than 2 counts');
     }
     if (!body || body.length < 15) {
         errorsCheck.value.push('Body must be greater than 15 counts');
