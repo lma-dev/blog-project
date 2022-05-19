@@ -1,31 +1,41 @@
 <template>
-  <form @submit.prevent="addPost">
-    <label>Title</label>
-    <input type="text" required v-model="title" />
-    <label>Body</label>
-    <textarea required v-model="body"></textarea>
-    <label>Tag(hit enter to add a tag)</label>
-    <input type="text" v-model="tag" @keydown.enter.prevent="handleKeydown" />
-    <div class="tag-design" v-for="(tag, index) in tags" :key="tag">
-      <button @click="removeTag(index)">{{ tag }}</button>
-    </div>
-    <button>add post</button>
-  </form>
+  <div>
+    <form @submit.prevent="validate">
+      <FormMessage :message="message" :errors="errors"></FormMessage>
+      <span class="title-design">Create Form</span><br />
+      <label>タイトル</label>
+      <input type="text" v-model="title" />
+      <label>コンテンツ</label>
+      <textarea v-model="body"></textarea>
+      <label>タグ(タグを追加するために入力してください)</label>
+      <input type="text" v-model="tag" @keydown.enter.prevent="handleKeydown" />
+      <div class="tag-design" v-for="(tag, index) in tags" :key="tag">
+        <button @click="removeTag(index)">{{ tag }}</button>
+      </div>
+      <button>記入</button>
+    </form>
+  </div>
 </template>
 
 <script>
-import { ref } from '@vue/reactivity';
-import { useRouter } from 'vue-router';
+import FormMessage from '../components/FormMessage';
+import { ref } from 'vue';
 import { db, timestamp } from '../firebase/config';
+import validateForm from '../composables/validateForm';
 
 export default {
+  components: {
+    FormMessage,
+  },
   setup() {
-    let router = useRouter();
     let title = ref('');
     let body = ref('');
     let tag = ref('');
     let tags = ref([]);
+    let message = ref('');
+    let errors = ref([]);
 
+    //delete same value when user insert
     let handleKeydown = () => {
       if (!tags.value.includes(tag.value)) {
         tags.value.push(tag.value);
@@ -33,6 +43,26 @@ export default {
       tag.value = '';
     };
 
+    let validate = () => {
+      errors.value = []; //reset Error Message
+      message.value = ''; //reset  Message
+      let { errorsCheck } = validateForm(title.value, body.value, tags.value);
+
+      if (!errorsCheck.value.length) {
+        // tag.value = tagsCheck.value;
+        // tags.value.push(tag.value);
+        // tags.value = tags.value.filter(function (el) {
+        //   return el != null;
+        // }); // Filter empty array element
+
+        addPost(); // add new post
+      } else {
+        errors.value = [...errorsCheck.value];
+        return;
+      }
+    };
+
+    // Create new Post
     let addPost = async () => {
       let newPost = {
         title: title.value,
@@ -40,65 +70,39 @@ export default {
         tags: tags.value,
         created_at: timestamp(),
       };
-      await db.collection('posts').add(newPost);
-      router.push({ name: 'Home' });
+
+      try {
+        await db.collection('posts').add(newPost);
+        errors.value = '';
+        message.value = 'Successfully created';
+        title.value = '';
+        body.value = '';
+        tags.value = '';
+        tag.value = '';
+      } catch (err) {
+        errors.value.push(err.message);
+      } // create post
     };
 
+    // remove tag when user insert wrong tag
     let removeTag = (index) => {
       tags.value.splice(index, 1);
     };
 
-    return { title, body, tag, tags, handleKeydown, addPost, removeTag };
+    return {
+      title,
+      body,
+      tag,
+      tags,
+      validate,
+      handleKeydown,
+      addPost,
+      removeTag,
+      errors,
+      message,
+    };
   },
 };
 </script>
 
-<style>
-form {
-  max-width: 450px;
-  text-align: left;
-  margin: 40px auto;
-}
-label {
-  display: inline-block;
-  padding: 20px 0 20px 0;
-  color: rgb(110, 109, 109);
-  font-size: 15px;
-  margin-bottom: 5px;
-  text-transform: uppercase;
-  font-weight: bold;
-  position: relative;
-}
-input,
-textarea {
-  border: none;
-  border-bottom: 1px solid black;
-  margin-bottom: 10px;
-  display: block;
-  box-sizing: border-box;
-  width: 100%;
-  height: auto;
-  padding: 10px;
-}
-button {
-  display: block;
-  border: none;
-  border-radius: 20px;
-  padding: 8px 16px;
-  background-color: crimson;
-  color: white;
-  margin-top: 20px;
-}
-
-.tag-design {
-  display: inline-block;
-  padding-right: 10px;
-}
-.tag-design button {
-  color: #444;
-  background: #ddd;
-}
-.tag-design button:hover {
-  cursor: pointer;
-}
-</style>
+<style></style>

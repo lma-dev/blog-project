@@ -1,13 +1,25 @@
 <template>
   <div class="post">
-    <router-link :to="{ name: 'Detail', params: { id: post.id } }">
-      <h2>{{ post.title }}</h2>
-    </router-link>
-    <p>{{ cutPostBody }}</p>
-    <div v-for="tag in post.tags" :key="tag" class="pill">
-      <router-link :to="{ name: 'Tag', params: { tag: tag } }">
-        {{ tag }}</router-link
-      >
+    <div class="layoutOne">
+      <div>
+        <img
+          :src="
+            'https://ui-avatars.com/api/?name=' + post.title + '&color=A2A2A2'
+          "
+          alt="404error"
+        />
+      </div>
+      <div>
+        <router-link :to="{ name: 'Detail', params: { id: post.id } }">
+          <h2>{{ post.title }}</h2>
+        </router-link>
+        <p>{{ cutPostBody }}</p>
+        <div v-for="tag in post.tags" :key="tag" class="pill">
+          <router-link :to="{ name: 'Tag', params: { tag: tag } }">
+            {{ tag }}</router-link
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -18,8 +30,11 @@ export default {
   props: ['post'],
   setup(props) {
     let cutPostBody = computed(() => {
-      return props.post.body.substring(0, 100) + '....';
+      return (
+        props.post.body.substring(0, 300) + '.... [ read more click title ]'
+      );
     });
+
     return { cutPostBody };
   },
 };
@@ -59,5 +74,15 @@ export default {
   padding: 8px;
   border-radius: 20px;
   font-size: 14px;
+}
+
+p {
+  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
+}
+.layoutOne {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 40px;
 }
 </style>

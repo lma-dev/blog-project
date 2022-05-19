@@ -10,17 +10,17 @@ let getPosts = () => {
     let error = ref("");
     let load = async () => {
         try {
-            let res = await db.collection("posts").orderBy("created_at", "desc").get()
-            posts.value = res.docs.map((doc) => {
-                return {
-                    id: doc.id,
-                    ...doc.data()
-                }
-                // console.log(doc.id);
+            // take realtime data from firebase
+            db.collection("posts").orderBy("created_at", "desc").onSnapshot((snap) => {
+                // fix post data to add id number
+                posts.value = snap.docs.map((doc) => {
+                    return {
+                        id: doc.id,
+                        ...doc.data()
+                    }
+                })
             })
-            // console.log(res.docs)               
         } catch (err) {
-            // console.log(error.message)
             error.value = err.message;
         }
     }

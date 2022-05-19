@@ -1,9 +1,9 @@
 <template>
   <header>
-    <h1>Bloggy Vue</h1>
+    <h1>Writer Paradise</h1>
     <nav>
-      <router-link :to="{ name: 'Home' }">Home</router-link>
-      <router-link :to="{ name: 'Create' }">Create</router-link>
+      <router-link :to="{ name: 'Home' }">ホームページ</router-link>
+      <router-link :to="{ name: 'Create' }">作成</router-link>
     </nav>
   </header>
 </template>

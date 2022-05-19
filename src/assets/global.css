@@ -1,0 +1,131 @@
+.error-box {
+    background-color: crimson;
+    color: white;
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: bold;
+    width: auto;
+}
+
+.success {
+    color: black;
+    background-color: aquamarine;
+    font-size: 14px;
+    padding: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+}
+
+.msg {
+    color: black;
+    background-color: crimson;
+    font-size: 14px;
+    padding: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+}
+
+.home {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+}
+
+img {
+    width: 400px;
+    height: 300px;
+    padding: 40px;
+}
+
+form {
+    max-width: 450px;
+    text-align: left;
+    margin: 40px auto;
+}
+
+label {
+    display: inline-block;
+    padding: 20px 0 20px 0;
+    color: rgb(110, 109, 109);
+    font-size: 15px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: relative;
+}
+
+input,
+textarea {
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+
+button {
+    display: block;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    background-color: blue;
+    color: white;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: green;
+    color: white;
+}
+
+.layout-btn button {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 15px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.tag-design {
+    display: inline-block;
+    padding-right: 10px;
+}
+
+.tag-design button {
+    color: #444;
+    background: #ddd;
+}
+
+.tag-design button:hover {
+    cursor: pointer;
+}
+
+.middle {
+    margin: 20px auto;
+    max-width: 500px;
+    max-height: auto;
+}
+
+.title-design {
+    font-weight: bold;
+    font-size: 30px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+
+hr {
+    border-top: 1px dashed red;
+    margin: 0px;
+}

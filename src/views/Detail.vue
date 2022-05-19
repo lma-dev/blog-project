@@ -1,11 +1,20 @@
 <template>
   <div v-if="post" class="post">
+    <img
+      :src="'https://ui-avatars.com/api/?name=' + post.title + '&color=A2A2A2 '"
+      alt="404error"
+    /><br />
     <h2>{{ post.title }}</h2>
     <p>{{ post.body }}</p>
-    <button class="delete" @click="deletePost">delete</button>
+    <div class="layout-btn">
+      <router-link :to="`/edit/${post.id}`">
+        <button class="edit">修正</button>
+      </router-link>
+      <button class="delete" @click="deletePost">削除</button>
+    </div>
   </div>
   <div v-else>
-    <Spinner></Spinner>
+    <Spinner>Loading</Spinner>
   </div>
 </template>
 
@@ -14,7 +23,6 @@ import Spinner from '../components/Spinner';
 import getPost from '../composables/getPost';
 import { db } from '../firebase/config';
 import { useRouter } from 'vue-router';
-import router from '@/router';
 
 export default {
   components: { Spinner },
@@ -23,20 +31,25 @@ export default {
     let router = useRouter();
     let { post, error, load } = getPost(props.id); //{post,error,load}
     load();
+
+    // delete post
     let deletePost = async () => {
       let id = props.id;
       await db.collection('posts').doc(id).delete();
-      router.push({ name: 'Home' });
+      router.push({ name: 'Home' }); //return home page
     };
+
     return { post, error, deletePost };
   },
 };
 </script>
 
-<style>
+<style scoped>
 .post {
-  margin: 0 40px 30px;
   padding-bottom: 30px;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 10px;
   border-bottom: 1px dashed #e7e7e7;
 }
 .post h2 {
@@ -67,9 +80,5 @@ export default {
   padding: 8px;
   border-radius: 20px;
   font-size: 14px;
-}
-
-button.delete {
-  margin: 30px auto;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="tag-cloud">
-    <h3>Tag Cloud</h3>
+    <h3>タグクラウド</h3>
     <div v-for="tag in uniqueTags" :key="tag">
       <router-link :to="{ name: 'Tag', params: { tag: tag } }">
         {{ tag }}
@@ -20,6 +20,8 @@ export default {
         tags.value.push(tag);
       });
     });
+
+    // filter same value
     let uniqueTags = tags.value.filter((tag, index, array) => {
       return array.indexOf(tag) === index;
     });

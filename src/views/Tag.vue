@@ -29,6 +29,8 @@ export default {
   setup(props) {
     let { posts, error, load } = getPosts();
     load();
+
+    //  show posts with same tag
     let filterPosts = computed(() => {
       return posts.value.filter((post) => {
         return post.tags.includes(props.tag);
