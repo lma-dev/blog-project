@@ -31,7 +31,7 @@ export default {
     let tags = ref([]);
     let errors = ref('');
     let message = ref('');
-    let post = ref('hello');
+    let post = ref(null);
 
     onMounted(async () => {
       let doc = await db.collection('posts').doc(props.id).get();
