@@ -30,7 +30,7 @@ export default {
   props: ['post'],
   setup(props) {
     let cutPostBody = computed(() => {
-      return props.post.body.substring(0, 200) + '....  read more Click title ';
+      return props.post.body.substring(0, 100) + '....  read more Click title ';
     });
 
     return { cutPostBody };
@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .post {
   margin: 0 40px 30px;
   padding-bottom: 30px;
@@ -77,6 +77,7 @@ export default {
 p {
   font-size: 20px;
   font-family: 'Courier New', Courier, monospace;
+  max-width: 400px;
 }
 .layoutOne {
   display: grid;
